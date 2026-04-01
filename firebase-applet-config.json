@@ -1,0 +1,10 @@
+{
+  "apiKey": "AIzaSyCWnk4dn79fvIAeFmTD0L_dBrTeEQ02U5k",
+  "authDomain": "oceanmind-plus.firebaseapp.com",
+  "databaseURL": "https://oceanmind-plus-default-rtdb.firebaseio.com",
+  "projectId": "oceanmind-plus",
+  "storageBucket": "oceanmind-plus.firebasestorage.app",
+  "messagingSenderId": "935039845825",
+  "appId": "1:935039845825:web:7d8c3be6f2ff93d2e21b40",
+  "firestoreDatabaseId": "(default)"
+}

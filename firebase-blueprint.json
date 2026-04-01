@@ -1,0 +1,25 @@
+{
+  "entities": {
+    "Bin": {
+      "title": "Smart Bin",
+      "description": "A smart waste bin with sensors for fill level and waste type.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the bin" },
+        "location": { "type": "string", "description": "Human-readable location name" },
+        "fillLevel": { "type": "number", "description": "Current fill level percentage (0-100)" },
+        "wasteType": { "type": "string", "enum": ["plastic", "organic", "metal", "paper", "glass", "other"] },
+        "battery": { "type": "number", "description": "Battery level percentage" },
+        "status": { "type": "string", "enum": ["active", "full", "maintenance", "critical"] },
+        "lastUpdated": { "type": "number", "description": "Timestamp of last update" }
+      },
+      "required": ["id", "location", "fillLevel", "wasteType", "status", "lastUpdated"]
+    }
+  },
+  "firestore": {
+    "/bins/{binId}": {
+      "schema": "Bin",
+      "description": "Collection of smart bins across the coastal area."
+    }
+  }
+}

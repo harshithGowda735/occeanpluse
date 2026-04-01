@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "harshithgowdags96@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidBin(data) {
+      return data.keys().hasAll(['id', 'location', 'fillLevel', 'wasteType', 'status', 'lastUpdated']) &&
+             data.id is string &&
+             data.location is string &&
+             data.fillLevel is number && data.fillLevel >= 0 && data.fillLevel <= 100 &&
+             data.wasteType in ['plastic', 'organic', 'metal', 'paper', 'glass', 'other'] &&
+             data.status in ['active', 'full', 'maintenance', 'critical'] &&
+             data.lastUpdated is number;
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    match /bins/{binId} {
+      // Anyone authenticated can read bin status
+      allow read: if isAuthenticated();
+      
+      // Only admins or the system (via backend) should create/update bins
+      // For this demo, we'll allow authenticated users to update for simulation purposes
+      allow create: if isAuthenticated() && isValidBin(request.resource.data);
+      allow update: if isAuthenticated() && isValidBin(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}

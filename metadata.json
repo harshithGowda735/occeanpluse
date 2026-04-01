@@ -1,0 +1,8 @@
+{
+  "name": "OceanMind+",
+  "description": "A production-ready smart waste ecosystem featuring AI waste scanning, IoT bin monitoring, blockchain tracking, and ocean pollution analytics.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
